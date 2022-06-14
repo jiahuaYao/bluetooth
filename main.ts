@@ -1,18 +1,29 @@
 bluetooth.onBluetoothConnected(function () {
-    basic.showIcon(IconNames.Sword)
+    basic.showIcon(IconNames.Yes)
 })
 bluetooth.onBluetoothDisconnected(function () {
-    basic.showIcon(IconNames.Sad)
+    basic.showIcon(IconNames.No)
 })
 input.onButtonPressed(Button.A, function () {
-    bluetooth.uartWriteString(String.fromCharCode(count))
-    count = count + 1000
+    while (count == 0) {
+        bluetooth.uartWriteNumber(baby)
+        baby += 1000
+    }
 })
 bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () {
     basic.showIcon(IconNames.Pitchfork)
 })
-let count = 0
-basic.showIcon(IconNames.SmallSquare)
-basic.forever(function () {
-	
+input.onButtonPressed(Button.B, function () {
+    count = 1
 })
+let baby = 0
+let count = 0
+bluetooth.startUartService()
+count = 0
+basic.showLeds(`
+    # . # . .
+    # . # # .
+    # # # . #
+    . . # # #
+    . . # . #
+    `)
